@@ -33,6 +33,7 @@ import net.rithms.riot.api.endpoints.clash.dto.ClashTournament;
 import net.rithms.riot.api.endpoints.clash.methods.GetClashPlayerRegistrationBySummoner;
 import net.rithms.riot.api.endpoints.clash.methods.GetClashTeamByTeamId;
 import net.rithms.riot.api.endpoints.clash.methods.GetClashTournamentByTeam;
+import net.rithms.riot.api.endpoints.clash.methods.GetClashTournamentByTournament;
 import net.rithms.riot.api.endpoints.clash.methods.GetClashTournaments;
 import net.rithms.riot.api.endpoints.league.constant.LeagueQueue;
 import net.rithms.riot.api.endpoints.league.dto.LeagueEntry;
@@ -569,6 +570,28 @@ public class RiotApi implements Cloneable {
     Objects.requireNonNull(platform);
     Objects.requireNonNull(teamId);
     ApiMethod method = new GetClashTournamentByTeam(getConfig(), platform, teamId);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
+  
+  /**
+   * Return the tournament corresponding to the given tournament ID.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param tournamentId
+   *            ID of the clash tournament.
+   * @return the clash tournament corresponding to the given tournament ID.
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @throws NullPointerException
+   *            If {@code platform} or {@code tournamentId} is {@code null}
+   * @version 1
+   * @see ClashTournament
+   */
+  public ClashTournament getClashTournamentByTournament(Platform platform, String tournamentId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(tournamentId);
+    ApiMethod method = new GetClashTournamentByTournament(getConfig(), platform, tournamentId);
     return endpointManager.callMethodAndReturnDto(method);
   }
 
