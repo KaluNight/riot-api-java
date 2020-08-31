@@ -1,4 +1,4 @@
-package net.rithms.riot.api.endpoints.clash.team_list.constant;
+package net.rithms.riot.api.endpoints.clash.constant;
 
 public enum TeamPosition {
   UNSELECTED,

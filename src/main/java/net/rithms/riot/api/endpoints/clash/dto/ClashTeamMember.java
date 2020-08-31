@@ -1,9 +1,9 @@
-package net.rithms.riot.api.endpoints.clash.team_list.dto;
+package net.rithms.riot.api.endpoints.clash.dto;
 
 import java.io.Serializable;
 import net.rithms.riot.api.Dto;
-import net.rithms.riot.api.endpoints.clash.team_list.constant.TeamPosition;
-import net.rithms.riot.api.endpoints.clash.team_list.constant.TeamRole;
+import net.rithms.riot.api.endpoints.clash.constant.TeamPosition;
+import net.rithms.riot.api.endpoints.clash.constant.TeamRole;
 
 /**
  * This object contain an active team member of a clash team.

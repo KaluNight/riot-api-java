@@ -1,15 +1,15 @@
-package net.rithms.riot.api.endpoints.clash.team_list.methods;
+package net.rithms.riot.api.endpoints.clash.methods;
 
 import java.util.List;
 import com.google.gson.reflect.TypeToken;
 import net.rithms.riot.api.ApiConfig;
 import net.rithms.riot.api.endpoints.clash.ClashApiMethod;
-import net.rithms.riot.api.endpoints.clash.team_list.dto.ClashTeamMember;
+import net.rithms.riot.api.endpoints.clash.dto.ClashTeamMember;
 import net.rithms.riot.constant.Platform;
 
-public class GetClashTeamMembersBySummoner extends ClashApiMethod {
+public class GetClashPlayerRegistrationBySummoner extends ClashApiMethod {
 
-  public GetClashTeamMembersBySummoner(ApiConfig config, Platform platform, String summonerId) {
+  public GetClashPlayerRegistrationBySummoner(ApiConfig config, Platform platform, String summonerId) {
     super(config);
     setPlatform(platform);
     setReturnType(new TypeToken<List<ClashTeamMember>>() {
