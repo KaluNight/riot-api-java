@@ -27,6 +27,8 @@ import net.rithms.riot.api.endpoints.champion_mastery.dto.ChampionMastery;
 import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteriesBySummoner;
 import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteriesBySummonerByChampion;
 import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteryScoresBySummoner;
+import net.rithms.riot.api.endpoints.clash.team_list.dto.ClashTeamMember;
+import net.rithms.riot.api.endpoints.clash.team_list.methods.GetClashTeamMembersBySummoner;
 import net.rithms.riot.api.endpoints.league.constant.LeagueQueue;
 import net.rithms.riot.api.endpoints.league.dto.LeagueEntry;
 import net.rithms.riot.api.endpoints.league.dto.LeagueList;
@@ -477,6 +479,27 @@ public class RiotApi implements Cloneable {
 		Objects.requireNonNull(platform);
 		ApiMethod method = new GetChampionRotations(getConfig(), platform);
 		return endpointManager.callMethodAndReturnDto(method);
+	}
+	
+	/**
+	 * Returns a list of active Clash players for a given summoner ID. 
+	 * Each member of the list is a different registration (e.g. Saturday and Sunday) for the same player.
+	 * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param summonerId
+   *            Summoner ID associated with the player
+	 * @return List of clash players registrations.
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+	 * @throws NullPointerException
+   *            If {@code platform} or {@code summonerId} is {@code null}
+	 */
+	public List<ClashTeamMember> getClashTeamMembersBySummoner(Platform platform, String summonerId) throws RiotApiException {
+	  Objects.requireNonNull(platform);
+	  Objects.requireNonNull(summonerId);
+	  ApiMethod method = new GetClashTeamMembersBySummoner(getConfig(), platform, summonerId);
+	  return endpointManager.callMethodAndReturnDto(method);
 	}
 
 	/**
