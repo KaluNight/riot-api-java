@@ -32,6 +32,7 @@ import net.rithms.riot.api.endpoints.clash.dto.ClashTeamMember;
 import net.rithms.riot.api.endpoints.clash.dto.ClashTournament;
 import net.rithms.riot.api.endpoints.clash.methods.GetClashPlayerRegistrationBySummoner;
 import net.rithms.riot.api.endpoints.clash.methods.GetClashTeamByTeamId;
+import net.rithms.riot.api.endpoints.clash.methods.GetClashTournamentByTeam;
 import net.rithms.riot.api.endpoints.clash.methods.GetClashTournaments;
 import net.rithms.riot.api.endpoints.league.constant.LeagueQueue;
 import net.rithms.riot.api.endpoints.league.dto.LeagueEntry;
@@ -514,7 +515,7 @@ public class RiotApi implements Cloneable {
    * @param platform
    *            Platform to execute the method call against.
    * @param teamId
-   *            team ID associated with the team
+   *            ID of the clash team.
    * @return List of clash players registrations.
    * @throws RiotApiException
    *             If the API returns an error or unparsable result
@@ -531,7 +532,7 @@ public class RiotApi implements Cloneable {
   }
   
   /**
-   * Returns a list of active and upcoming tournaments.
+   * Return a list of active and upcoming tournaments.
    * 
    * @param platform
    *            Platform to execute the method call against.
@@ -546,6 +547,28 @@ public class RiotApi implements Cloneable {
   public List<ClashTournament> getClashTournaments(Platform platform) throws RiotApiException {
     Objects.requireNonNull(platform);
     ApiMethod method = new GetClashTournaments(getConfig(), platform);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
+  
+  /**
+   * Return the tournament corresponding to the given team.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param teamId
+   *            ID of the clash team.
+   * @return the clash tournament corresponding to the team.
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @throws NullPointerException
+   *            If {@code platform} or {@code teamId} is {@code null}
+   * @version 1
+   * @see ClashTournament
+   */
+  public ClashTournament getClashTournamentByTeam(Platform platform, String teamId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(teamId);
+    ApiMethod method = new GetClashTournamentByTeam(getConfig(), platform, teamId);
     return endpointManager.callMethodAndReturnDto(method);
   }
 
