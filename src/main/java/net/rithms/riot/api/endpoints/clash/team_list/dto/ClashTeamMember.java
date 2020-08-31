@@ -7,7 +7,6 @@ import net.rithms.riot.api.endpoints.clash.team_list.constant.TeamRole;
 
 /**
  * This object contain an active team member of a clash team.
- * @author KaluNight
  */
 public class ClashTeamMember extends Dto implements Serializable {
 

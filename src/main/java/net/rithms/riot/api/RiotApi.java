@@ -494,6 +494,8 @@ public class RiotApi implements Cloneable {
    *             If the API returns an error or unparsable result
 	 * @throws NullPointerException
    *            If {@code platform} or {@code summonerId} is {@code null}
+   * @version 1
+   * @see ClashTeamMember
 	 */
 	public List<ClashTeamMember> getClashTeamMembersBySummoner(Platform platform, String summonerId) throws RiotApiException {
 	  Objects.requireNonNull(platform);
