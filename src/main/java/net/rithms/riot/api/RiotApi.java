@@ -27,8 +27,10 @@ import net.rithms.riot.api.endpoints.champion_mastery.dto.ChampionMastery;
 import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteriesBySummoner;
 import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteriesBySummonerByChampion;
 import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteryScoresBySummoner;
+import net.rithms.riot.api.endpoints.clash.dto.ClashTeam;
 import net.rithms.riot.api.endpoints.clash.dto.ClashTeamMember;
 import net.rithms.riot.api.endpoints.clash.methods.GetClashPlayerRegistrationBySummoner;
+import net.rithms.riot.api.endpoints.clash.methods.GetClashTeamByTeamId;
 import net.rithms.riot.api.endpoints.league.constant.LeagueQueue;
 import net.rithms.riot.api.endpoints.league.dto.LeagueEntry;
 import net.rithms.riot.api.endpoints.league.dto.LeagueList;
@@ -482,7 +484,7 @@ public class RiotApi implements Cloneable {
 	}
 	
 	/**
-	 * Returns a list of active Clash players for a given summoner ID. 
+	 * Return a list of active Clash players for a given summoner ID. 
 	 * Each member of the list is a different registration (e.g. Saturday and Sunday) for the same player.
 	 * 
    * @param platform
@@ -497,12 +499,34 @@ public class RiotApi implements Cloneable {
    * @version 1
    * @see ClashTeamMember
 	 */
-	public List<ClashTeamMember> getClashTeamMembersBySummoner(Platform platform, String summonerId) throws RiotApiException {
+	public List<ClashTeamMember> getClashPlayersBySummoner(Platform platform, String summonerId) throws RiotApiException {
 	  Objects.requireNonNull(platform);
 	  Objects.requireNonNull(summonerId);
 	  ApiMethod method = new GetClashPlayerRegistrationBySummoner(getConfig(), platform, summonerId);
 	  return endpointManager.callMethodAndReturnDto(method);
 	}
+	
+	/**
+   * Return a representation of the asked Clash Team. Contain a list of team's member.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param teamId
+   *            team ID associated with the team
+   * @return List of clash players registrations.
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @throws NullPointerException
+   *            If {@code platform} or {@code teamId} is {@code null}
+   * @version 1
+   * @see ClashTeam
+   */
+  public ClashTeam getClashTeamByTeamId(Platform platform, String teamId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(teamId);
+    ApiMethod method = new GetClashTeamByTeamId(getConfig(), platform, teamId);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
 
 	/**
 	 * Get the configuration
