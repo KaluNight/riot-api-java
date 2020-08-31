@@ -29,8 +29,10 @@ import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteri
 import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteryScoresBySummoner;
 import net.rithms.riot.api.endpoints.clash.dto.ClashTeam;
 import net.rithms.riot.api.endpoints.clash.dto.ClashTeamMember;
+import net.rithms.riot.api.endpoints.clash.dto.ClashTournament;
 import net.rithms.riot.api.endpoints.clash.methods.GetClashPlayerRegistrationBySummoner;
 import net.rithms.riot.api.endpoints.clash.methods.GetClashTeamByTeamId;
+import net.rithms.riot.api.endpoints.clash.methods.GetClashTournaments;
 import net.rithms.riot.api.endpoints.league.constant.LeagueQueue;
 import net.rithms.riot.api.endpoints.league.dto.LeagueEntry;
 import net.rithms.riot.api.endpoints.league.dto.LeagueList;
@@ -525,6 +527,25 @@ public class RiotApi implements Cloneable {
     Objects.requireNonNull(platform);
     Objects.requireNonNull(teamId);
     ApiMethod method = new GetClashTeamByTeamId(getConfig(), platform, teamId);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
+  
+  /**
+   * Returns a list of active and upcoming tournaments.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @return List of clash tournaments
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @throws NullPointerException
+   *            If {@code platform} is {@code null}
+   * @version 1
+   * @see ClashTournament
+   */
+  public List<ClashTournament> getClashTournaments(Platform platform) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    ApiMethod method = new GetClashTournaments(getConfig(), platform);
     return endpointManager.callMethodAndReturnDto(method);
   }
 
