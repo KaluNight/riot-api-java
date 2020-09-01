@@ -39,6 +39,7 @@ abstract public class ApiMethod {
 	private Type returnType = null;
 
 	private boolean requireApiKey = false;
+	private boolean requireTFTApiKey = false;
 
 	protected ApiMethod(ApiConfig config, String service) {
 		this.config = config;
@@ -56,19 +57,28 @@ abstract public class ApiMethod {
 	protected void addApiKeyParameter() {
 		add(new HttpHeadParameter("X-Riot-Token", getConfig().getKey()));
 	}
+	
+	protected void addTFTApiKeyParameter() {
+	  add(new HttpHeadParameter("X-Riot-Token", getConfig().getTFTKey()));
+	}
 
 	public void buildJsonBody(Map<String, Object> map) {
 		body = new Gson().toJson(map);
 	}
 
 	public void checkRequirements() throws RiotApiException {
-		if (doesRequireApiKey() && getConfig().getKey() == null) {
+		if ((doesRequireApiKey() && getConfig().getKey() == null) 
+		    || (doesRequireTFTApiKey() && getConfig().getTFTKey() == null)) {
 			throw new RiotApiException(RiotApiException.MISSING_API_KEY);
 		}
 	}
 
 	public boolean doesRequireApiKey() {
 		return requireApiKey;
+	}
+	
+	public boolean doesRequireTFTApiKey() {
+	  return requireTFTApiKey;
 	}
 
 	public String getBody() {
@@ -111,6 +121,10 @@ abstract public class ApiMethod {
 
 	protected void requireApiKey() {
 		requireApiKey = true;
+	}
+	
+	protected void requireTFTApiKey() {
+	  requireTFTApiKey = true;
 	}
 
 	protected void setPlatform(Platform platform) {

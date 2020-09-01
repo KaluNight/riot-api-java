@@ -39,6 +39,7 @@ public class ApiConfig implements Cloneable {
 	private Level debugLevel = DEFAULT_DEBUG_LEVEL;
 	private boolean debugToFile = DEFAULT_DEBUG_TO_FILE;
 	private String key = null;
+	private String tftKey = null;
 	private int maxAsyncThreads = DEFAULT_MAX_ASYNC_THREADS;
 	private RateLimitHandler rateLimitHandler = DEFAULT_RATE_LIMIT_HANDLER;
 	private int requestTimeout = DEFAULT_REQUEST_TIMEOUT;
@@ -47,8 +48,9 @@ public class ApiConfig implements Cloneable {
 
 	@Override
 	public ApiConfig clone() {
-		return new ApiConfig().setAsyncRequestTimeout(getAsyncRequestTimeout()).setDebugLevel(getDebugLevel()).setDebugToFile(getDebugToFile()).setKey(getKey())
-				.setMaxAsyncThreads(getMaxAsyncThreads()).setRateLimitHandler(getRateLimitHandler()).setRequestTimeout(getRequestTimeout())
+		return new ApiConfig().setAsyncRequestTimeout(getAsyncRequestTimeout()).setDebugLevel(getDebugLevel()).setDebugToFile(getDebugToFile())
+		    .setKey(getKey()).setTFTKey(getTFTKey()).setMaxAsyncThreads(getMaxAsyncThreads())
+		    .setRateLimitHandler(getRateLimitHandler()).setRequestTimeout(getRequestTimeout())
 				.setTournamentKey(getTournamentKey()).setTournamentMockMode(getTournamentMockMode());
 	}
 
@@ -66,6 +68,10 @@ public class ApiConfig implements Cloneable {
 
 	public String getKey() {
 		return key;
+	}
+	
+	public String getTFTKey() {
+	  return tftKey;
 	}
 
 	public int getMaxAsyncThreads() {
@@ -153,6 +159,21 @@ public class ApiConfig implements Cloneable {
 		this.key = key;
 		return this;
 	}
+	
+  /**
+   * Sets the tft api key for the Riot Api. TFT endpoints require this key to be set.
+   *
+   * @param tftKey
+   *            Your api key
+   * @return This ApiConfig object for chaining
+   * @throws NullPointerException
+   *             If the {@code key} is null
+   */
+  public ApiConfig setTFTKey(String tftKey) {
+    Objects.requireNonNull(tftKey, "tftKey must not be null");
+    this.tftKey = tftKey;
+    return this;
+  }
 
 	/**
 	 * Sets the maximum amount of threads for asynchronous api calls running at once. If set to zero, there is no limit.

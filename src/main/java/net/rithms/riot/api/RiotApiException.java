@@ -144,7 +144,7 @@ public class RiotApiException extends Exception {
 		case METHOD_NOT_ALLOWED:
 			return "Method not allowed";
 		case MISSING_API_KEY:
-			return "Api Key is required but missing";
+			return "LoL Api Key or TFT Api key is required but missing";
 		case MISSING_TOURNAMENT_API_KEY:
 			return "Tournament Api Key is required but missing";
 		case NULLPOINTEREXCEPTION:
