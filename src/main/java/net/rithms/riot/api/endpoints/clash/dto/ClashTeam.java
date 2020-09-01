@@ -34,8 +34,8 @@ public class ClashTeam extends Dto implements Serializable {
     return id;
   }
   
-  public int getTournamentId() {
-    return tournamentId;
+  public String getTournamentId() {
+    return Integer.toString(tournamentId);
   }
   
   public String getName() {
