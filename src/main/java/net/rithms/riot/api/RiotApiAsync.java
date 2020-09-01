@@ -18,13 +18,20 @@ package net.rithms.riot.api;
 
 import java.util.Objects;
 import java.util.Set;
-
 import net.rithms.riot.api.endpoints.champion.dto.ChampionInfo;
 import net.rithms.riot.api.endpoints.champion.methods.GetChampionRotations;
 import net.rithms.riot.api.endpoints.champion_mastery.dto.ChampionMastery;
 import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteriesBySummoner;
 import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteriesBySummonerByChampion;
 import net.rithms.riot.api.endpoints.champion_mastery.methods.GetChampionMasteryScoresBySummoner;
+import net.rithms.riot.api.endpoints.clash.dto.ClashTeam;
+import net.rithms.riot.api.endpoints.clash.dto.ClashTeamMember;
+import net.rithms.riot.api.endpoints.clash.dto.ClashTournament;
+import net.rithms.riot.api.endpoints.clash.methods.GetClashPlayerRegistrationBySummoner;
+import net.rithms.riot.api.endpoints.clash.methods.GetClashTeamByTeamId;
+import net.rithms.riot.api.endpoints.clash.methods.GetClashTournamentByTeam;
+import net.rithms.riot.api.endpoints.clash.methods.GetClashTournamentByTournament;
+import net.rithms.riot.api.endpoints.clash.methods.GetClashTournaments;
 import net.rithms.riot.api.endpoints.league.constant.LeagueQueue;
 import net.rithms.riot.api.endpoints.league.dto.LeagueEntry;
 import net.rithms.riot.api.endpoints.league.dto.LeagueList;
@@ -440,6 +447,114 @@ public class RiotApiAsync {
 		return endpointManager.callMethodAsynchronously(method);
 	}
 
+	 /**
+   * Return a list of active Clash players for a given summoner ID. 
+   * Each member of the list is a different registration (e.g. Saturday and Sunday) for the same player.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param summonerId
+   *            Summoner ID associated with the player
+   * @return List of clash players registrations.
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @throws NullPointerException
+   *            If {@code platform} or {@code summonerId} is {@code null}
+   * @version 1
+   * @see ClashTeamMember
+   */
+  public AsyncRequest getClashPlayersBySummoner(Platform platform, String summonerId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(summonerId);
+    ApiMethod method = new GetClashPlayerRegistrationBySummoner(getConfig(), platform, summonerId);
+    return endpointManager.callMethodAsynchronously(method);
+  }
+  
+  /**
+   * Return a representation of the asked Clash Team. Contain a list of team's member.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param teamId
+   *            ID of the clash team.
+   * @return List of clash players registrations.
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @throws NullPointerException
+   *            If {@code platform} or {@code teamId} is {@code null}
+   * @version 1
+   * @see ClashTeam
+   */
+  public AsyncRequest getClashTeamByTeamId(Platform platform, String teamId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(teamId);
+    ApiMethod method = new GetClashTeamByTeamId(getConfig(), platform, teamId);
+    return endpointManager.callMethodAsynchronously(method);
+  }
+  
+  /**
+   * Return a list of active and upcoming tournaments.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @return List of clash tournaments
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @throws NullPointerException
+   *            If {@code platform} is {@code null}
+   * @version 1
+   * @see ClashTournament
+   */
+  public AsyncRequest getClashTournaments(Platform platform) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    ApiMethod method = new GetClashTournaments(getConfig(), platform);
+    return endpointManager.callMethodAsynchronously(method);
+  }
+  
+  /**
+   * Return the tournament corresponding to the given team.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param teamId
+   *            ID of the clash team.
+   * @return the clash tournament corresponding to the team.
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @throws NullPointerException
+   *            If {@code platform} or {@code teamId} is {@code null}
+   * @version 1
+   * @see ClashTournament
+   */
+  public AsyncRequest getClashTournamentByTeam(Platform platform, String teamId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(teamId);
+    ApiMethod method = new GetClashTournamentByTeam(getConfig(), platform, teamId);
+    return endpointManager.callMethodAsynchronously(method);
+  }
+  
+  /**
+   * Return the tournament corresponding to the given tournament ID.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param tournamentId
+   *            ID of the clash tournament.
+   * @return the clash tournament corresponding to the given tournament ID.
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @throws NullPointerException
+   *            If {@code platform} or {@code tournamentId} is {@code null}
+   * @version 1
+   * @see ClashTournament
+   */
+  public AsyncRequest getClashTournamentByTournament(Platform platform, String tournamentId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(tournamentId);
+    ApiMethod method = new GetClashTournamentByTournament(getConfig(), platform, tournamentId);
+    return endpointManager.callMethodAsynchronously(method);
+  }
+	
 	/**
 	 * Get the configuration
 	 * 
