@@ -1,6 +1,6 @@
-# [RIOT-API-JAVA](http://taycaldwell.com/riot-api-java/)
+# RIOT-API-JAVA
 ----------
-[![JitPack](https://img.shields.io/github/tag/rithms/riot-api-java.svg?label=maven)](https://jitpack.io/#kalunight/riot-api-java/4.4.0)
+[![JitPack](https://img.shields.io/github/tag/kalunight/riot-api-java.svg?label=maven)](https://jitpack.io/#kalunight/riot-api-java/4.4.0)
 ----------
 
 A simple to use Riot Games API wrapper for Java.
@@ -24,7 +24,7 @@ Build Path -> Configure Build Path -> Libraries -> Add External Jars
 
 and selecting the jar under the Order and Export tab.
 
-This project is also available on [Jitpack](https://jitpack.io/#rithms/riot-api-java/4.4.0)
+This project is also available on [Jitpack](https://jitpack.io/#kalunight/riot-api-java/4.4.0)
 
 ### Gradle
 
@@ -43,7 +43,7 @@ Add the project as a dependency:
 
 ```java
 dependencies {
-	compile 'com.github.taycaldwell:riot-api-java:4.4.0'
+	compile 'com.github.kalunight:riot-api-java:4.4.0'
 }
 ```
 
@@ -148,11 +148,12 @@ The documentation for this library can be found [here.](http://taycaldwell.com/r
 The current version of this library supports the following Riot Games API versions:
 - **CHAMPION-MASTERY-V4**
 - **CHAMPION-V3**
+- **CLASH-V1**
 - **LEAGUE-V4**
 - **LOL-STATUS-V3**
 - **MATCH-V4**
 - **SPECTATOR-V4**
-- **STATIC-DATA-V3** (deprecated)
+- **STATIC-DATA-V3** (endpoint deprecated)
 - **SUMMONER-V4**
 - **THIRD-PARTY-CODE-V4**
 - **TOURNAMENT-V3**
