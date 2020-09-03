@@ -16,65 +16,95 @@
 
 package net.rithms.riot.constant;
 
+import java.security.InvalidParameterException;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import net.rithms.riot.api.RiotApi;
 
 public enum Platform {
-	BR("BR1", "br"),
-	EUNE("EUN1", "eune"),
-	EUW("EUW1", "euw"),
-	JP("JP1", "jp"),
-	KR("KR", "kr"),
-	LAN("LA1", "lan"),
-	LAS("LA2", "las"),
-	NA("NA1", "na"),
-	OCE("OC1", "oce"),
-	RU("RU", "ru"),
-	TR("TR1", "tr");
+  BR("BR1", "br"),
+  EUNE("EUN1", "eune"),
+  EUW("EUW1", "euw"),
+  JP("JP1", "jp"),
+  KR("KR", "kr"),
+  LAN("LA1", "lan"),
+  LAS("LA2", "las"),
+  NA("NA1", "na"),
+  OCE("OC1", "oce"),
+  RU("RU", "ru"),
+  TR("TR1", "tr");
 
-	private String id;
-	private String name;
+  private String id;
+  private String name;
 
-	public static Platform getPlatformById(String id) {
-		for (Platform platform : Platform.values()) {
-			if (platform.getId().equalsIgnoreCase(id)) {
-				return platform;
-			}
-		}
-		RiotApi.log.warning("Unknown platform ID: " + id);
-		throw new NoSuchElementException("Unknown platform ID: " + id);
-	}
+  public static Platform getPlatformById(String id) {
+    for (Platform platform : Platform.values()) {
+      if (platform.getId().equalsIgnoreCase(id)) {
+        return platform;
+      }
+    }
+    RiotApi.log.warning("Unknown platform ID: " + id);
+    throw new NoSuchElementException("Unknown platform ID: " + id);
+  }
 
-	public static Platform getPlatformByName(String name) {
-		for (Platform platform : Platform.values()) {
-			if (platform.getName().equalsIgnoreCase(name)) {
-				return platform;
-			}
-		}
-		RiotApi.log.warning("Unknown platform name: " + name);
-		throw new NoSuchElementException("Unknown platform name: " + name);
-	}
+  public static Platform getPlatformByName(String name) {
+    for (Platform platform : Platform.values()) {
+      if (platform.getName().equalsIgnoreCase(name)) {
+        return platform;
+      }
+    }
+    RiotApi.log.warning("Unknown platform name: " + name);
+    throw new NoSuchElementException("Unknown platform name: " + name);
+  }
 
-	Platform(String id, String name) {
-		this.id = id;
-		this.name = name;
-	}
+  Platform(String id, String name) {
+    this.id = id;
+    this.name = name;
+  }
 
-	public String getId() {
-		return id;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public String getHost() {
-		return "https://" + getId().toLowerCase() + ".api.riotgames.com";
-	}
+  public String getHost() {
+    return "https://" + getId().toLowerCase() + ".api.riotgames.com";
+  }
 
-	@Override
-	public String toString() {
-		return getId();
-	}
+  public String getRegionalHost(Platform platform) {
+    Objects.requireNonNull(platform);
+    String regionalId;
+    switch(platform) {
+    case NA:
+    case BR:
+    case LAN:
+    case LAS:
+    case OCE:
+      regionalId = "americas";
+      break;
+    case KR:
+    case JP:
+      regionalId = "asia";
+      break;
+    case EUW:
+    case EUNE:
+    case TR:
+    case RU:
+      regionalId = "europe";
+      break;
+    default:
+      throw new InvalidParameterException("The asked platform as no regionalId ! Platform : " + platform.getId());
+    }
+    
+    return "https://" + regionalId + ".api.riotgames.com"; 
+  }
+
+  @Override
+  public String toString() {
+    return getId();
+  }
 }
