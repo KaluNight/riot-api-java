@@ -109,6 +109,7 @@ import net.rithms.riot.api.endpoints.summoner.methods.GetSummoner;
 import net.rithms.riot.api.endpoints.summoner.methods.GetSummonerByAccount;
 import net.rithms.riot.api.endpoints.summoner.methods.GetSummonerByName;
 import net.rithms.riot.api.endpoints.summoner.methods.GetSummonerByPuuid;
+import net.rithms.riot.api.endpoints.tft_match.methods.GetTFTMatchListIdBySummonerPuuid;
 import net.rithms.riot.api.endpoints.tft_summoner.dto.TFTSummoner;
 import net.rithms.riot.api.endpoints.tft_summoner.methods.GetTFTSummoner;
 import net.rithms.riot.api.endpoints.tft_summoner.methods.GetTFTSummonerByAccount;
@@ -2054,6 +2055,30 @@ public class RiotApi implements Cloneable {
 		ApiMethod method = new UpdateTournamentCode(getConfig(), tournamentCode, mapType, pickType, spectatorType, allowedSummonerIds);
 		endpointManager.callMethod(method);
 	}
+	
+	/**
+  * Get a list of TFT Match IDs for a given Summoner PUUID
+  *
+  * @param platform
+  *            Platform to execute the method call against.
+  * @param summonerPuuid
+  *            Summoner PUUID of the wanted summoner.
+  * @param maxMatch
+  *            Optional parameter to limit the number of match ids received. Send null if you want to ignore it.
+  * @return The list containing match ID
+  * @throws NullPointerException
+  *             If {@code platform} or {@code summonerPuuid} is {@code null}
+  * @throws RiotApiException
+  *             If the API returns an error or unparsable result
+  * @version 1
+  * @see TFTSummoner
+  */
+ public List<String> getTFTMatchList(Platform platform, String summonerPuuid, Integer maxMatch) throws RiotApiException {
+   Objects.requireNonNull(platform);
+   Objects.requireNonNull(summonerPuuid);
+   ApiMethod method = new GetTFTMatchListIdBySummonerPuuid(getConfig(), platform, summonerPuuid, maxMatch);
+   return endpointManager.callMethodAndReturnDto(method);
+ }
 	
 	 /**
    * Get a TFT summoner object for a given {@code summonerId}.
