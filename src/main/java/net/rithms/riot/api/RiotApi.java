@@ -1707,7 +1707,7 @@ public class RiotApi implements Cloneable {
 		return endpointManager.callMethodAndReturnDto(method);
 	}
 
-	 /**
+	/**
    * Get the master TFT league.
    * 
    * @param platform
