@@ -109,6 +109,16 @@ import net.rithms.riot.api.endpoints.summoner.methods.GetSummoner;
 import net.rithms.riot.api.endpoints.summoner.methods.GetSummonerByAccount;
 import net.rithms.riot.api.endpoints.summoner.methods.GetSummonerByName;
 import net.rithms.riot.api.endpoints.summoner.methods.GetSummonerByPuuid;
+import net.rithms.riot.api.endpoints.tft_league.dto.TFTLeagueEntry;
+import net.rithms.riot.api.endpoints.tft_league.dto.TFTLeagueList;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetChallengerTFTLeague;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetGrandMasterTFTLeague;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetMasterTFTLeague;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetTFTLeagueById;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetTFTLeagueEntries;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetTFTLeagueEntryBySummoner;
+import net.rithms.riot.api.endpoints.tft_match.dto.TFTMatch;
+import net.rithms.riot.api.endpoints.tft_match.methods.GetTFTMatch;
 import net.rithms.riot.api.endpoints.tft_match.methods.GetTFTMatchListIdBySummonerPuuid;
 import net.rithms.riot.api.endpoints.tft_summoner.dto.TFTSummoner;
 import net.rithms.riot.api.endpoints.tft_summoner.methods.GetTFTSummoner;
@@ -409,6 +419,25 @@ public class RiotApi implements Cloneable {
 		Objects.requireNonNull(queue);
 		return getChallengerLeagueByQueue(platform, queue.toString());
 	}
+	
+	/**
+   * Get the challenger TFT league.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @return A league list
+   * @throws NullPointerException
+   *             If {@code platform} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueList
+   */
+  public TFTLeagueList getChallengerTFTLeague(Platform platform) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    ApiMethod method = new GetChallengerTFTLeague(getConfig(), platform);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
 
 	/**
 	 * Get all champion mastery entries sorted by number of champion points descending
@@ -1531,6 +1560,25 @@ public class RiotApi implements Cloneable {
 	}
 
 	/**
+   * Get the grandmaster TFT league.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @return A league list
+   * @throws NullPointerException
+   *             If {@code platform} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueList
+   */
+  public TFTLeagueList getGrandmasterLeagueByQueue(Platform platform) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    ApiMethod method = new GetGrandMasterTFTLeague(getConfig(), platform);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
+  
+	/**
 	 * Get the grandmaster league for a given {@code queue}.
 	 * 
 	 * @param platform
@@ -1659,6 +1707,25 @@ public class RiotApi implements Cloneable {
 		return endpointManager.callMethodAndReturnDto(method);
 	}
 
+	 /**
+   * Get the master TFT league.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @return A league list
+   * @throws NullPointerException
+   *             If {@code platform} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueList
+   */
+  public LeagueList getMasterLeagueByQueue(Platform platform) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    ApiMethod method = new GetMasterTFTLeague(getConfig(), platform);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
+	
 	/**
 	 * Get the master league for a given {@code queue}.
 	 * 
@@ -2056,6 +2123,79 @@ public class RiotApi implements Cloneable {
 		endpointManager.callMethod(method);
 	}
 	
+	
+	/**
+   * Get tft league with given ID, including inactive entries.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param leagueId
+   *            League ID
+   * @return TFT League list
+   * @throws NullPointerException
+   *             If {@code platform} or {@code leagueId} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueList
+   */
+  public TFTLeagueList getTFTLeagueById(Platform platform, String leagueId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(leagueId);
+    ApiMethod method = new GetTFTLeagueById(getConfig(), platform, leagueId);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
+	
+  /**
+   * Get TFT league entries in for a given {@code tier} and {@code division}. 
+   * {@code pageNumber} is optional (can be null).
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param tier
+   *            Tier
+   * @param division
+   *            Division
+   * @param pageNumber
+   *            Optional (can be null). Define the wanted page. If {@code pageNumber} is null the page 1 will be selected.
+   * @return List of league entries
+   * @throws NullPointerException
+   *             If {@code platform}, {@code tier}, or {@code division} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueEntry
+   */
+  public Set<TFTLeagueEntry> getTFTLeagueEntries(Platform platform, String tier, String division, Integer pageNumber) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(tier);
+    Objects.requireNonNull(division);
+    ApiMethod method = new GetTFTLeagueEntries(getConfig(), platform, tier, division, pageNumber);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
+	
+	 /**
+	  * Get the TFT LeagueEntry corresponding to the given SummonerId.
+	  *
+	  * @param platform
+	  *            Platform to execute the method call against.
+	  * @param summonerPuuid
+	  *            Summoner ID corresponding to the wanted summoner.
+	  * @return The league entry corresponding to the given summoner ID.
+	  * @throws NullPointerException
+	  *             If {@code platform} or {@code summonerId} is {@code null}
+	  * @throws RiotApiException
+	  *             If the API returns an error or unparsable result
+	  * @version 1
+	  * @see TFTLeagueEntry
+	  */
+	 public TFTLeagueEntry getTFTLeagueEntryBySummoner(Platform platform, String summonerId) throws RiotApiException {
+	   Objects.requireNonNull(platform);
+	   Objects.requireNonNull(summonerId);
+	   ApiMethod method = new GetTFTLeagueEntryBySummoner(getConfig(), platform, summonerId);
+	   return endpointManager.callMethodAndReturnDto(method);
+	 }
+	
 	/**
   * Get a list of TFT Match IDs for a given Summoner PUUID
   *
@@ -2077,6 +2217,28 @@ public class RiotApi implements Cloneable {
    Objects.requireNonNull(platform);
    Objects.requireNonNull(summonerPuuid);
    ApiMethod method = new GetTFTMatchListIdBySummonerPuuid(getConfig(), platform, summonerPuuid, maxMatch);
+   return endpointManager.callMethodAndReturnDto(method);
+ }
+ 
+ /**
+  * Get a tft match for a given match id.
+  *
+  * @param platform
+  *            Platform to execute the method call against.
+  * @param matchId
+  *            Match id of the wanted TFT Match.
+  * @return the tft match
+  * @throws NullPointerException
+  *             If {@code platform} or {@code matchId} is {@code null}
+  * @throws RiotApiException
+  *             If the API returns an error or unparsable result
+  * @version 1
+  * @see TFTMatch
+  */
+ public TFTMatch getTFTMatch(Platform platform, String matchId) throws RiotApiException {
+   Objects.requireNonNull(platform);
+   Objects.requireNonNull(matchId);
+   ApiMethod method = new GetTFTMatch(getConfig(), platform, matchId);
    return endpointManager.callMethodAndReturnDto(method);
  }
 	

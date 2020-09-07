@@ -16,7 +16,7 @@ public class GetTFTMatchListIdBySummonerPuuid extends TFTMatchApiMethod {
     setPlatform(platform);
     setReturnType(new TypeToken<List<String>>() {
     }.getType());
-    setUrlBase(platform.getRegionalHost(platform) + "/tft/match/v1/matches/by-puuid/" + puuid + "/ids");
+    setUrlBase(platform.getRegionalHost() + "/tft/match/v1/matches/by-puuid/" + puuid + "/ids");
     if (count != null) {
         add(new UrlParameter("count", count));
     }

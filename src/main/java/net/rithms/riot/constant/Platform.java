@@ -75,7 +75,15 @@ public enum Platform {
     return "https://" + getId().toLowerCase() + ".api.riotgames.com";
   }
 
-  public String getRegionalHost(Platform platform) {
+  public static String getRegionalHost(Platform platform) {
+    return getRegionalHostByPlatform(platform); 
+  }
+  
+  public String getRegionalHost() {
+    return getRegionalHostByPlatform(this); 
+  }
+
+  private static String getRegionalHostByPlatform(Platform platform) {
     Objects.requireNonNull(platform);
     String regionalId;
     switch(platform) {
@@ -100,7 +108,7 @@ public enum Platform {
       throw new InvalidParameterException("The asked platform as no regionalId ! Platform : " + platform.getId());
     }
     
-    return "https://" + regionalId + ".api.riotgames.com"; 
+    return "https://" + regionalId + ".api.riotgames.com";
   }
 
   @Override

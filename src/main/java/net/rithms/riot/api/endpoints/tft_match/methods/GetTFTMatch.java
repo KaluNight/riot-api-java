@@ -11,7 +11,7 @@ public class GetTFTMatch extends TFTMatchApiMethod {
     super(config);
     setPlatform(platform);
     setReturnType(TFTMatch.class);
-    setUrlBase(platform.getRegionalHost(platform) + "/tft/match/v1/matches/" + matchId);
+    setUrlBase(platform.getRegionalHost() + "/tft/match/v1/matches/" + matchId);
     addTFTApiKeyParameter();
   }
 
