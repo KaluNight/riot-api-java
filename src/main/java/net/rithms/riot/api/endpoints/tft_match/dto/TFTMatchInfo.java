@@ -8,7 +8,7 @@ public class TFTMatchInfo extends Dto implements Serializable {
 
   private static final long serialVersionUID = 6266121385607163658L;
   
-  private long game_dateTime;
+  private long game_datetime;
   private float game_length;
   private String game_variation;
   private String game_version;
@@ -32,7 +32,7 @@ public class TFTMatchInfo extends Dto implements Serializable {
   }
   
   public long getGameDateTime() {
-    return game_dateTime;
+    return game_datetime;
   }
   
   public float getGameLength() {
