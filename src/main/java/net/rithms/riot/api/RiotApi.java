@@ -1572,7 +1572,7 @@ public class RiotApi implements Cloneable {
    * @version 1
    * @see TFTLeagueList
    */
-  public TFTLeagueList getGrandmasterLeagueByQueue(Platform platform) throws RiotApiException {
+  public TFTLeagueList getGrandmasterTFTLeague(Platform platform) throws RiotApiException {
     Objects.requireNonNull(platform);
     ApiMethod method = new GetGrandMasterTFTLeague(getConfig(), platform);
     return endpointManager.callMethodAndReturnDto(method);
@@ -1720,7 +1720,7 @@ public class RiotApi implements Cloneable {
    * @version 1
    * @see TFTLeagueList
    */
-  public LeagueList getMasterLeagueByQueue(Platform platform) throws RiotApiException {
+  public LeagueList getMasterTFTLeague(Platform platform) throws RiotApiException {
     Objects.requireNonNull(platform);
     ApiMethod method = new GetMasterTFTLeague(getConfig(), platform);
     return endpointManager.callMethodAndReturnDto(method);

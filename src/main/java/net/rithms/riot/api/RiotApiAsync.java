@@ -106,6 +106,19 @@ import net.rithms.riot.api.endpoints.summoner.methods.GetSummoner;
 import net.rithms.riot.api.endpoints.summoner.methods.GetSummonerByAccount;
 import net.rithms.riot.api.endpoints.summoner.methods.GetSummonerByName;
 import net.rithms.riot.api.endpoints.summoner.methods.GetSummonerByPuuid;
+import net.rithms.riot.api.endpoints.tft_league.dto.TFTLeagueList;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetChallengerTFTLeague;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetGrandMasterTFTLeague;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetMasterTFTLeague;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetTFTLeagueById;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetTFTLeagueEntries;
+import net.rithms.riot.api.endpoints.tft_league.methods.GetTFTLeagueEntryBySummoner;
+import net.rithms.riot.api.endpoints.tft_match.methods.GetTFTMatch;
+import net.rithms.riot.api.endpoints.tft_match.methods.GetTFTMatchListIdBySummonerPuuid;
+import net.rithms.riot.api.endpoints.tft_summoner.dto.TFTSummoner;
+import net.rithms.riot.api.endpoints.tft_summoner.methods.GetTFTSummoner;
+import net.rithms.riot.api.endpoints.tft_summoner.methods.GetTFTSummonerByAccount;
+import net.rithms.riot.api.endpoints.tft_summoner.methods.GetTFTSummonerByName;
 import net.rithms.riot.api.endpoints.third_party_code.methods.GetThirdPartyCodeBySummoner;
 import net.rithms.riot.api.endpoints.tournament.constant.PickType;
 import net.rithms.riot.api.endpoints.tournament.constant.SpectatorType;
@@ -371,6 +384,25 @@ public class RiotApiAsync {
 		Objects.requireNonNull(queue);
 		return getChallengerLeagueByQueue(platform, queue.toString());
 	}
+	
+	/**
+   * Get the challenger TFT league.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @return A league list
+   * @throws NullPointerException
+   *             If {@code platform} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueList
+   */
+  public AsyncRequest getChallengerTFTLeague(Platform platform) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    ApiMethod method = new GetChallengerTFTLeague(getConfig(), platform);
+    return endpointManager.callMethodAsynchronously(method);
+  }
 
 	/**
 	 * Get all champion mastery entries sorted by number of champion points descending
@@ -1443,6 +1475,25 @@ public class RiotApiAsync {
 		Objects.requireNonNull(queue);
 		return getGrandmasterLeagueByQueue(platform, queue.toString());
 	}
+	
+	/**
+   * Get the grandmaster TFT league.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @return A league list
+   * @throws NullPointerException
+   *             If {@code platform} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueList
+   */
+  public AsyncRequest getGrandmasterTFTLeague(Platform platform) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    ApiMethod method = new GetGrandMasterTFTLeague(getConfig(), platform);
+    return endpointManager.callMethodAsynchronously(method);
+  }
 
 	/**
 	 * Get league with given ID, including inactive entries.
@@ -1463,7 +1514,7 @@ public class RiotApiAsync {
 		ApiMethod method = new GetLeagueById(getConfig(), platform, leagueId);
 		return endpointManager.callMethodAsynchronously(method);
 	}
-
+  
 	/**
 	 * Get league entries in all queues for a given {@code queue}, {@code tier}, and {@code division}.
 	 * 
@@ -1563,6 +1614,25 @@ public class RiotApiAsync {
 		Objects.requireNonNull(queue);
 		return getMasterLeagueByQueue(platform, queue.toString());
 	}
+	
+  /**
+   * Get the master TFT league.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @return A league list
+   * @throws NullPointerException
+   *             If {@code platform} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueList
+   */
+  public AsyncRequest getMasterTFTLeague(Platform platform) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    ApiMethod method = new GetMasterTFTLeague(getConfig(), platform);
+    return endpointManager.callMethodAsynchronously(method);
+  }
 
 	/**
 	 * Get match by {@code matchId}.
@@ -1879,6 +1949,212 @@ public class RiotApiAsync {
 		ApiMethod method = new GetTournamentCode(getConfig(), tournamentCode);
 		return endpointManager.callMethodAsynchronously(method);
 	}
+	
+  /**
+   * Get tft league with given ID, including inactive entries.
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param leagueId
+   *            League ID
+   * @return TFT League list
+   * @throws NullPointerException
+   *             If {@code platform} or {@code leagueId} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueList
+   */
+  public AsyncRequest getTFTLeagueById(Platform platform, String leagueId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(leagueId);
+    ApiMethod method = new GetTFTLeagueById(getConfig(), platform, leagueId);
+    return endpointManager.callMethodAsynchronously(method);
+  }
+  
+  /**
+   * Get TFT league entries in for a given {@code tier} and {@code division}. 
+   * {@code pageNumber} is optional (can be null).
+   * 
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param tier
+   *            Tier
+   * @param division
+   *            Division
+   * @param pageNumber
+   *            Optional (can be null). Define the wanted page. If {@code pageNumber} is null the page 1 will be selected.
+   * @return List of league entries
+   * @throws NullPointerException
+   *             If {@code platform}, {@code tier}, or {@code division} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueEntry
+   */
+  public AsyncRequest getTFTLeagueEntries(Platform platform, String tier, String division, Integer pageNumber) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(tier);
+    Objects.requireNonNull(division);
+    ApiMethod method = new GetTFTLeagueEntries(getConfig(), platform, tier, division, pageNumber);
+    return endpointManager.callMethodAsynchronously(method);
+  }
+
+  /**
+   * Get the TFT LeagueEntry corresponding to the given SummonerId.
+   *
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param summonerPuuid
+   *            Summoner ID corresponding to the wanted summoner.
+   * @return The league entry corresponding to the given summoner ID.
+   * @throws NullPointerException
+   *             If {@code platform} or {@code summonerId} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTLeagueEntry
+   */
+  public AsyncRequest getTFTLeagueEntryBySummoner(Platform platform, String summonerId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(summonerId);
+    ApiMethod method = new GetTFTLeagueEntryBySummoner(getConfig(), platform, summonerId);
+    return endpointManager.callMethodAsynchronously(method);
+  }
+  
+  /**
+   * Get a tft match for a given match id.
+   *
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param matchId
+   *            Match id of the wanted TFT Match.
+   * @return the tft match
+   * @throws NullPointerException
+   *             If {@code platform} or {@code matchId} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 1
+   * @see TFTMatch
+   */
+  public AsyncRequest getTFTMatch(Platform platform, String matchId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(matchId);
+    ApiMethod method = new GetTFTMatch(getConfig(), platform, matchId);
+    return endpointManager.callMethodAsynchronously(method);
+  }
+  
+ /**
+  * Get a list of TFT Match IDs for a given Summoner PUUID
+  *
+  * @param platform
+  *            Platform to execute the method call against.
+  * @param summonerPuuid
+  *            Summoner PUUID of the wanted summoner.
+  * @param maxMatch
+  *            Optional parameter to limit the number of match ids received. Send null if you want to ignore it.
+  * @return The list containing match ID
+  * @throws NullPointerException
+  *             If {@code platform} or {@code summonerPuuid} is {@code null}
+  * @throws RiotApiException
+  *             If the API returns an error or unparsable result
+  * @version 1
+  * @see TFTSummoner
+  */
+ public AsyncRequest getTFTMatchList(Platform platform, String summonerPuuid, Integer maxMatch) throws RiotApiException {
+   Objects.requireNonNull(platform);
+   Objects.requireNonNull(summonerPuuid);
+   ApiMethod method = new GetTFTMatchListIdBySummonerPuuid(getConfig(), platform, summonerPuuid, maxMatch);
+   return endpointManager.callMethodAsynchronously(method);
+ }
+  
+  /**
+  * Get a TFT summoner object for a given {@code summonerId}.
+  *
+  * @param platform
+  *            Platform to execute the method call against.
+  * @param summonerId
+  *            Summoner ID associated with summoner to retrieve.
+  * @return The desired summoner
+  * @throws NullPointerException
+  *             If {@code platform} is {@code null}
+  * @throws RiotApiException
+  *             If the API returns an error or unparsable result
+  * @version 1
+  * @see TFTSummoner
+  */
+ public AsyncRequest getTFTSummoner(Platform platform, String summonerId) throws RiotApiException {
+   Objects.requireNonNull(platform);
+   Objects.requireNonNull(summonerId);
+   ApiMethod method = new GetTFTSummoner(getConfig(), platform, summonerId);
+   return endpointManager.callMethodAsynchronously(method);
+ }
+ 
+ /**
+  * Get a TFT summoner object for a given {@code accountId}.
+  *
+  * @param platform
+  *            Platform to execute the method call against.
+  * @param accountId
+  *            account ID associated with summoner to retrieve.
+  * @return The desired summoner
+  * @throws NullPointerException
+  *             If {@code platform} is {@code null}
+  * @throws RiotApiException
+  *             If the API returns an error or unparsable result
+  * @version 1
+  * @see TFTSummoner
+  */
+ public AsyncRequest getTFTSummonerByAccount(Platform platform, String accountId) throws RiotApiException {
+   Objects.requireNonNull(platform);
+   Objects.requireNonNull(accountId);
+   ApiMethod method = new GetTFTSummonerByAccount(getConfig(), platform, accountId);
+   return endpointManager.callMethodAsynchronously(method);
+ }
+ 
+ /**
+  * Get a TFT summoner object for a given {@code summonerName}.
+  *
+  * @param platform
+  *            Platform to execute the method call against.
+  * @param summonerName
+  *            Summoner Name associated with summoner to retrieve.
+  * @return The desired summoner
+  * @throws NullPointerException
+  *             If {@code platform} is {@code null}
+  * @throws RiotApiException
+  *             If the API returns an error or unparsable result
+  * @version 1
+  * @see TFTSummoner
+  */
+ public AsyncRequest getTFTSummonerByName(Platform platform, String summonerName) throws RiotApiException {
+   Objects.requireNonNull(platform);
+   Objects.requireNonNull(summonerName);
+   ApiMethod method = new GetTFTSummonerByName(getConfig(), platform, summonerName);
+   return endpointManager.callMethodAsynchronously(method);
+ }
+ 
+ /**
+  * Get a TFT summoner object for a given {@code summonerPuuid}.
+  *
+  * @param platform
+  *            Platform to execute the method call against.
+  * @param summonerPuuid
+  *            Summoner Puuid associated with summoner to retrieve.
+  * @return The desired summoner
+  * @throws NullPointerException
+  *             If {@code platform} is {@code null}
+  * @throws RiotApiException
+  *             If the API returns an error or unparsable result
+  * @version 1
+  * @see TFTSummoner
+  */
+ public AsyncRequest getTFTSummonerByPuuid(Platform platform, String summonerPuuid) throws RiotApiException {
+   Objects.requireNonNull(platform);
+   Objects.requireNonNull(summonerPuuid);
+   ApiMethod method = new GetTFTSummonerByName(getConfig(), platform, summonerPuuid);
+   return endpointManager.callMethodAsynchronously(method);
+ }
 
 	/**
 	 * Removes one or more {@link RequestListener} from getting informed when asynchronous requests finish.
