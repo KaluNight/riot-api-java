@@ -11,7 +11,7 @@ public class GetTFTSummonerByPUUID extends TFTSummonerApiMethod {
     super(config);
     setPlatform(platform);
     setReturnType(TFTSummoner.class);
-    setUrlBase(platform.getHost() + "/tft/summoner/v1/summoners/by-name/" + puuid);
+    setUrlBase(platform.getHost() + "/tft/summoner/v1/summoners/by-puuid/" + puuid);
     addTFTApiKeyParameter();
   }
 

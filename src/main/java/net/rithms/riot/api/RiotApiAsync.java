@@ -119,6 +119,7 @@ import net.rithms.riot.api.endpoints.tft_summoner.dto.TFTSummoner;
 import net.rithms.riot.api.endpoints.tft_summoner.methods.GetTFTSummoner;
 import net.rithms.riot.api.endpoints.tft_summoner.methods.GetTFTSummonerByAccount;
 import net.rithms.riot.api.endpoints.tft_summoner.methods.GetTFTSummonerByName;
+import net.rithms.riot.api.endpoints.tft_summoner.methods.GetTFTSummonerByPUUID;
 import net.rithms.riot.api.endpoints.third_party_code.methods.GetThirdPartyCodeBySummoner;
 import net.rithms.riot.api.endpoints.tournament.constant.PickType;
 import net.rithms.riot.api.endpoints.tournament.constant.SpectatorType;
@@ -2152,7 +2153,7 @@ public class RiotApiAsync {
  public AsyncRequest getTFTSummonerByPuuid(Platform platform, String summonerPuuid) throws RiotApiException {
    Objects.requireNonNull(platform);
    Objects.requireNonNull(summonerPuuid);
-   ApiMethod method = new GetTFTSummonerByName(getConfig(), platform, summonerPuuid);
+   ApiMethod method = new GetTFTSummonerByPUUID(getConfig(), platform, summonerPuuid);
    return endpointManager.callMethodAsynchronously(method);
  }
 
