@@ -16,11 +16,15 @@
 
 package net.rithms.riot.api;
 
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 
 import net.rithms.riot.api.request.ratelimit.DefaultRateLimitHandler;
 import net.rithms.riot.api.request.ratelimit.RateLimitHandler;
+import net.rithms.riot.constant.APIKeyType;
 
 /**
  * Configuration class to use with the {@link RiotApi}.
@@ -31,7 +35,6 @@ public class ApiConfig implements Cloneable {
 	public final Level DEFAULT_DEBUG_LEVEL = Level.WARNING;
 	public final boolean DEFAULT_DEBUG_TO_FILE = false;
 	public final int DEFAULT_MAX_ASYNC_THREADS = 0;
-	public final RateLimitHandler DEFAULT_RATE_LIMIT_HANDLER = new DefaultRateLimitHandler();
 	public final int DEFAULT_REQUEST_TIMEOUT = 0;
 	public final boolean DEFAULT_TOURNAMENT_MOCK_MODE = false;
 
@@ -41,16 +44,23 @@ public class ApiConfig implements Cloneable {
 	private String key = null;
 	private String tftKey = null;
 	private int maxAsyncThreads = DEFAULT_MAX_ASYNC_THREADS;
-	private RateLimitHandler rateLimitHandler = DEFAULT_RATE_LIMIT_HANDLER;
+  private Map<APIKeyType, RateLimitHandler> rateLimitHandlerPerKey =
+      Collections.synchronizedMap(new EnumMap<APIKeyType, RateLimitHandler>(APIKeyType.class));
 	private int requestTimeout = DEFAULT_REQUEST_TIMEOUT;
 	private String tournamentKey = null;
 	private boolean tournamentMockMode = DEFAULT_TOURNAMENT_MOCK_MODE;
 
+	public ApiConfig() {
+    for(APIKeyType keyType : APIKeyType.values()) {
+      rateLimitHandlerPerKey.put(keyType, new DefaultRateLimitHandler());
+    }
+  }
+	
 	@Override
 	public ApiConfig clone() {
 		return new ApiConfig().setAsyncRequestTimeout(getAsyncRequestTimeout()).setDebugLevel(getDebugLevel()).setDebugToFile(getDebugToFile())
 		    .setKey(getKey()).setTFTKey(getTFTKey()).setMaxAsyncThreads(getMaxAsyncThreads())
-		    .setRateLimitHandler(getRateLimitHandler()).setRequestTimeout(getRequestTimeout())
+		    .setRateLimitHandlerAllKey(getRateLimitHandlerAllKey()).setRequestTimeout(getRequestTimeout())
 				.setTournamentKey(getTournamentKey()).setTournamentMockMode(getTournamentMockMode());
 	}
 
@@ -78,8 +88,12 @@ public class ApiConfig implements Cloneable {
 		return maxAsyncThreads;
 	}
 
-	public RateLimitHandler getRateLimitHandler() {
-		return rateLimitHandler;
+	public RateLimitHandler getRateLimitHandler(APIKeyType type) {
+		return rateLimitHandlerPerKey.get(type);
+	}
+	
+	private Map<APIKeyType, RateLimitHandler> getRateLimitHandlerAllKey() {
+	  return rateLimitHandlerPerKey;
 	}
 
 	public int getRequestTimeout() {
@@ -204,9 +218,14 @@ public class ApiConfig implements Cloneable {
 	 *            {@code RateLimitHandler} instance
 	 * @return This ApiConfig object for chaining
 	 */
-	public ApiConfig setRateLimitHandler(RateLimitHandler rateLimitHandler) {
-		this.rateLimitHandler = rateLimitHandler;
+	public ApiConfig setRateLimitHandler(RateLimitHandler rateLimitHandler, APIKeyType type) {
+		rateLimitHandlerPerKey.put(type, rateLimitHandler);
 		return this;
+	}
+	
+	private ApiConfig setRateLimitHandlerAllKey(Map<APIKeyType, RateLimitHandler> rateLimitHandler) {
+	  rateLimitHandlerPerKey = rateLimitHandler;
+	  return this;
 	}
 
 	/**

@@ -39,6 +39,7 @@ import net.rithms.riot.api.RiotApi;
 import net.rithms.riot.api.RiotApiException;
 import net.rithms.riot.api.request.ratelimit.RateLimitException;
 import net.rithms.riot.api.request.ratelimit.RespectedRateLimitException;
+import net.rithms.riot.constant.APIKeyType;
 
 /**
  * This class is used to fire synchronous call at the Riot Api. You should not construct these requests manually. To fire synchronous
@@ -128,9 +129,16 @@ public class Request {
 		try {
 			object.checkRequirements();
 
+			APIKeyType typeOfTheRequest;
+			if(object.doesRequireTFTApiKey()) {
+			  typeOfTheRequest = APIKeyType.TFT;
+			}else {
+			  typeOfTheRequest = APIKeyType.LOL;
+			}
+			
 			// Notify RateLimitHandler
-			if (config.getRateLimitHandler() != null) {
-				config.getRateLimitHandler().onRequestAboutToFire(this);
+			if (config.getRateLimitHandler(typeOfTheRequest) != null) {
+				config.getRateLimitHandler(typeOfTheRequest).onRequestAboutToFire(this);
 			}
 
 			URL url = new URL(object.getUrl());
@@ -183,8 +191,8 @@ public class Request {
 			setResponse(new RequestResponse(connection.getResponseCode(), responseBodyBuilder.toString(), connection.getHeaderFields()));
 
 			// Notify RateLimitHandler
-			if (config.getRateLimitHandler() != null) {
-				config.getRateLimitHandler().onRequestDone(this);
+			if (config.getRateLimitHandler(typeOfTheRequest) != null) {
+				config.getRateLimitHandler(typeOfTheRequest).onRequestDone(this);
 			}
 
 			// Handle rate limit error
