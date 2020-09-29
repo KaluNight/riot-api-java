@@ -2305,6 +2305,7 @@ public class RiotApi implements Cloneable {
   public TFTSummoner getTFTSummonerByName(Platform platform, String summonerName) throws RiotApiException {
     Objects.requireNonNull(platform);
     Objects.requireNonNull(summonerName);
+    RiotApiUtil.requireValidSummonerName(summonerName);
     ApiMethod method = new GetTFTSummonerByName(getConfig(), platform, summonerName);
     return endpointManager.callMethodAndReturnDto(method);
   }
