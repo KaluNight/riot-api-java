@@ -1,6 +1,6 @@
 # RIOT-API-JAVA
 ----------
-[![JitPack](https://img.shields.io/github/tag/kalunight/riot-api-java.svg?label=maven)](https://jitpack.io/#kalunight/riot-api-java/4.5.3)
+[![JitPack](https://img.shields.io/github/tag/kalunight/riot-api-java.svg?label=maven)](https://jitpack.io/#kalunight/riot-api-java/4.5.4)
 ----------
 
 A simple to use Riot Games API wrapper for Java.
@@ -24,7 +24,7 @@ Build Path -> Configure Build Path -> Libraries -> Add External Jars
 
 and selecting the jar under the Order and Export tab.
 
-This project is also available on [Jitpack](https://jitpack.io/#kalunight/riot-api-java/4.5.3)
+This project is also available on [Jitpack](https://jitpack.io/#kalunight/riot-api-java/4.5.4)
 
 ### Gradle
 
@@ -43,7 +43,7 @@ Add the project as a dependency:
 
 ```java
 dependencies {
-	compile 'com.github.kalunight:riot-api-java:4.5.3'
+	compile 'com.github.kalunight:riot-api-java:4.5.4'
 }
 ```
 
@@ -66,7 +66,7 @@ Add the project as a dependency:
 <dependency>
     <groupId>com.github.kalunight</groupId>
     <artifactId>riot-api-java</artifactId>
-    <version>4.5.3</version>
+    <version>4.5.4</version>
 </dependency>
 ```
 
