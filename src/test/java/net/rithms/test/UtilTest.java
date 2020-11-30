@@ -35,28 +35,6 @@ public class UtilTest {
 	public ExpectedException thrown = ExpectedException.none();
 
 	@Test
-	public void testNormalizeSummonerName() throws RiotApiException {
-		// Valid Usage
-		assertEquals("abc", RiotApiUtil.normalizeSummonerName("A b     C"));
-		// Test fix for special case characters
-		assertEquals("i", RiotApiUtil.normalizeSummonerName("İ"));
-		// NullPointerException
-		thrown.expect(NullPointerException.class);
-		RiotApiUtil.normalizeSummonerName(null);
-	}
-
-	@Test
-	public void testNormalizeSummonerNames() throws RiotApiException {
-		// Valid Usage
-		String[] s = RiotApiUtil.normalizeSummonerNames("ab c", "D E F");
-		assertEquals("abc", s[0]);
-		assertEquals("def", s[1]);
-		// NullPointerException
-		thrown.expect(NullPointerException.class);
-		RiotApiUtil.normalizeSummonerNames((String[]) null);
-	}
-
-	@Test
 	public void testJoinString() throws RiotApiException {
 		// Valid Usage for Strings
 		assertEquals("abc", RiotApiUtil.joinString(",", "abc"));

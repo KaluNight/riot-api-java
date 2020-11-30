@@ -9,14 +9,12 @@ import net.rithms.riot.api.RiotApi;
 import net.rithms.riot.api.endpoints.tft_summoner.TFTSummonerApiMethod;
 import net.rithms.riot.api.endpoints.tft_summoner.dto.TFTSummoner;
 import net.rithms.riot.constant.Platform;
-import net.rithms.util.RiotApiUtil;
 
 public class GetTFTSummonerByName extends TFTSummonerApiMethod {
 
   public GetTFTSummonerByName(ApiConfig config, Platform platform, String summonerName) {
     super(config);
     setPlatform(platform);
-    summonerName = RiotApiUtil.normalizeSummonerName(summonerName);
     setReturnType(TFTSummoner.class);
     try {
       setUrlBase(platform.getHost() + "/tft/summoner/v1/summoners/by-name/" + URLEncoder.encode(summonerName, "UTF-8"));

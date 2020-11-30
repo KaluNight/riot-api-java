@@ -16,83 +16,11 @@
 
 package net.rithms.util;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Objects;
 
 import net.rithms.riot.api.RiotApi;
 
 public final class RiotApiUtil {
-
-	/**
-	 * Normalizes and returns a summoner name. Specifically, this casts {@code String summonerName} to lower case and strips any
-	 * whitespaces.
-	 * 
-	 * @param summonerName
-	 *            summoner name
-	 * @return Normalized summoner name
-	 * @throws NullPointerException
-	 *             If {@code summonerName} is {@code null}
-	 */
-	public static String normalizeSummonerName(String summonerName) {
-		Objects.requireNonNull(summonerName);
-		summonerName = summonerName.replaceAll("\u0130", "i"); // LATIN CAPITAL LETTER I DOT
-		return summonerName.toLowerCase().replaceAll("\\s+", "");
-	}
-
-	/**
-	 * Normalizes and returns an array of summoner names. Specifically, this casts each of {@code String[] summonerNames} to lower case and
-	 * strips any whitespaces.
-	 * 
-	 * @param summonerNames
-	 *            summoner names
-	 * @return Normalized summoner names
-	 * @throws NullPointerException
-	 *             If {@code summonerNames} is {@code null}
-	 */
-	public static String[] normalizeSummonerNames(String... summonerNames) {
-		Objects.requireNonNull(summonerNames);
-
-		// Java 8
-		// return Arrays.stream(summonerNames).map(s -> normalizeSummonerName(s)).toArray(size -> new String[size]);
-
-		// Java 7
-		for (int i = 0; i < summonerNames.length; i++) {
-			summonerNames[i] = normalizeSummonerName(summonerNames[i]);
-		}
-		return summonerNames;
-	}
-
-	/**
-	 * Normalizes and returns a map with summoner name keys. This casts each of the keys of {@code Map<String, T> map} to lower case and
-	 * strips any whitespaces.
-	 * 
-	 * @param summonerNames
-	 *            map with summoner name keys
-	 * @return Normalized map with summoner name keys
-	 * @throws NullPointerException
-	 *             If {@code summonerNames} is {@code null}
-	 */
-	public static <T> Map<String, T> normalizeSummonerNames(Map<String, T> summonerNames) {
-		Objects.requireNonNull(summonerNames);
-		Map<String, T> map = new HashMap<String, T>(summonerNames);
-
-		// Java 8
-		// map = map.entrySet().stream().collect(Collectors.toMap(p -> normalizeSummonerName(p.getKey()), p -> p.getValue()));
-
-		// Java 7
-		Iterator<Map.Entry<String, T>> it = map.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<String, T> pair = (Map.Entry<String, T>) it.next();
-			String normalizedKey = normalizeSummonerName(pair.getKey());
-			if (!pair.getKey().equals(normalizedKey)) {
-				it.remove();
-				map.put(normalizedKey, pair.getValue());
-			}
-		}
-		return map;
-	}
 
 	/**
 	 * Returns a new String composed of copies of the {@code elements} joined together with a copy of the specified {@code delimiter}.
