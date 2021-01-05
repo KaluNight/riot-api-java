@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import net.rithms.riot.api.Dto;
 
@@ -27,7 +26,7 @@ public class ClashTournamentPhase extends Dto implements Serializable {
   
   public ZonedDateTime getRegistrationTime() {
     return ZonedDateTime.of(Timestamp.from(Instant.ofEpochMilli(registrationTime)).toLocalDateTime(),
-        ZoneId.of(ZoneOffset.UTC.getId()));
+        ZoneId.systemDefault());
   }
   
   public long getStartTimeTimestamp() {
@@ -36,7 +35,7 @@ public class ClashTournamentPhase extends Dto implements Serializable {
   
   public ZonedDateTime getStartTime() {
     return ZonedDateTime.of(Timestamp.from(Instant.ofEpochMilli(startTime)).toLocalDateTime(),
-        ZoneId.of(ZoneOffset.UTC.getId()));
+        ZoneId.systemDefault());
   }
   
   public boolean isCancelled() {
