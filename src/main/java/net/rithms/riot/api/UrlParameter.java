@@ -18,7 +18,6 @@ package net.rithms.riot.api;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.logging.Level;
 
 public class UrlParameter implements Cloneable {
 
@@ -66,7 +65,7 @@ public class UrlParameter implements Cloneable {
 			parameter = URLEncoder.encode(getKey(), "UTF-8") + "=" + URLEncoder.encode(getValue(), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			// This should never happen
-			RiotApi.log.log(Level.SEVERE, "URL Encoding Failed", e);
+			RiotApi.log.error("URL Encoding Failed", e);
 		}
 		return parameter;
 	}

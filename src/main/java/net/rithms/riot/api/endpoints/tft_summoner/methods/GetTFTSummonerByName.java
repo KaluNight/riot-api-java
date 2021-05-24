@@ -2,8 +2,6 @@ package net.rithms.riot.api.endpoints.tft_summoner.methods;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.logging.Level;
-
 import net.rithms.riot.api.ApiConfig;
 import net.rithms.riot.api.RiotApi;
 import net.rithms.riot.api.endpoints.tft_summoner.TFTSummonerApiMethod;
@@ -20,7 +18,7 @@ public class GetTFTSummonerByName extends TFTSummonerApiMethod {
       setUrlBase(platform.getHost() + "/tft/summoner/v1/summoners/by-name/" + URLEncoder.encode(summonerName, "UTF-8"));
     } catch (UnsupportedEncodingException e) {
       // This should never happen
-      RiotApi.log.log(Level.SEVERE, "URL Encoding Failed", e);
+      RiotApi.log.error("URL Encoding Failed", e);
     }
     addTFTApiKeyParameter();
   }

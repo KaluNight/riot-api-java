@@ -98,7 +98,7 @@ public class BufferedRateLimitHandler extends DefaultRateLimitHandler {
 				int limit = appLimits.get(interval);
 				if ((double) count / (double) limit > threshold) {
 					rateLimitList.setRateLimit(object.getPlatform(), object.getService(), object.getClass().getName(), "app", cooldown);
-					RiotApi.log.fine("[BufferedRateLimitHandler] App limit threshhold " + threshold + " exceeded (" + count + "/" + limit
+					RiotApi.log.trace("[BufferedRateLimitHandler] App limit threshhold " + threshold + " exceeded (" + count + "/" + limit
 							+ "). Soft rate limiting for " + cooldown + "s");
 				}
 			}
@@ -112,7 +112,7 @@ public class BufferedRateLimitHandler extends DefaultRateLimitHandler {
 				int limit = methodLimits.get(interval);
 				if ((double) count / (double) limit > threshold) {
 					rateLimitList.setRateLimit(object.getPlatform(), object.getService(), object.getClass().getName(), "app", cooldown);
-					RiotApi.log.fine("[BufferedRateLimitHandler] Method limit threshhold " + threshold + " exceeded (" + count + "/" + limit + ") for "
+					RiotApi.log.trace("[BufferedRateLimitHandler] Method limit threshhold " + threshold + " exceeded (" + count + "/" + limit + ") for "
 							+ object.getClass().getName() + ". Soft rate limiting for " + cooldown + "s");
 				}
 			}

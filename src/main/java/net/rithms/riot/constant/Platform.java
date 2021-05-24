@@ -44,7 +44,7 @@ public enum Platform {
         return platform;
       }
     }
-    RiotApi.log.warning("Unknown platform ID: " + id);
+    RiotApi.log.warn("Unknown platform ID: {}", id);
     throw new NoSuchElementException("Unknown platform ID: " + id);
   }
 
@@ -54,7 +54,7 @@ public enum Platform {
         return platform;
       }
     }
-    RiotApi.log.warning("Unknown platform name: " + name);
+    RiotApi.log.warn("Unknown platform name: {}", name);
     throw new NoSuchElementException("Unknown platform name: " + name);
   }
 

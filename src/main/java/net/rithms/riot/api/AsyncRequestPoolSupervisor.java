@@ -16,8 +16,6 @@
 
 package net.rithms.riot.api;
 
-import java.util.logging.Level;
-
 class AsyncRequestPoolSupervisor extends Thread {
 
 	private static final long IDLE_TIME_RESIGN = 5000;
@@ -63,7 +61,7 @@ class AsyncRequestPoolSupervisor extends Thread {
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
-				RiotApi.log.log(Level.WARNING, "Supervisor Sleep Interrupted", e);
+				RiotApi.log.warn("Supervisor Sleep Interrupted", e);
 			}
 		}
 	}

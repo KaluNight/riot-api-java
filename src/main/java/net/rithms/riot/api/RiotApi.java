@@ -19,7 +19,9 @@ package net.rithms.riot.api;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.rithms.riot.api.endpoints.champion.dto.ChampionInfo;
 import net.rithms.riot.api.endpoints.champion.methods.GetChampionRotations;
@@ -167,7 +169,7 @@ import net.rithms.util.RiotApiUtil;
  */
 public class RiotApi implements Cloneable {
 
-	public static final Logger log = Logger.getLogger(RiotApi.class.getName());
+	public static final Logger log = LoggerFactory.getLogger(RiotApi.class.getName());
 
 	private final ApiConfig config;
 	private final EndpointManager endpointManager;
@@ -192,9 +194,6 @@ public class RiotApi implements Cloneable {
 	 */
 	public RiotApi(ApiConfig config) {
 		this.config = config;
-		log.setUseParentHandlers(false);
-		log.addHandler(new LogHandler(config.getDebugToFile()));
-		log.setLevel(config.getDebugLevel());
 		endpointManager = new EndpointManager(config);
 	}
 

@@ -27,7 +27,7 @@ public class RateLimitTest {
         api.getSummonerByName(Platform.EUW, "KaluNight");
       }
     }catch(RateLimitException e) {
-      RiotApi.log.fine("Expected Error");
+      RiotApi.log.trace("Expected Error");
     }
     
     try {
@@ -35,7 +35,7 @@ public class RateLimitTest {
         api.getTFTSummonerByName(Platform.EUW, "KaluNight");
       }
     }catch(RateLimitException e) {
-      RiotApi.log.warning("This key can still be fired but a rate limit error has been throw!");
+      RiotApi.log.trace("This key can still be fired but a rate limit error has been throw!");
       fail();
     }
     //Test OK

@@ -18,8 +18,6 @@ package net.rithms.riot.api.endpoints.summoner.methods;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.logging.Level;
-
 import net.rithms.riot.api.ApiConfig;
 import net.rithms.riot.api.RiotApi;
 import net.rithms.riot.api.endpoints.summoner.SummonerApiMethod;
@@ -36,7 +34,7 @@ public class GetSummonerByName extends SummonerApiMethod {
 			setUrlBase(platform.getHost() + "/lol/summoner/v4/summoners/by-name/" + URLEncoder.encode(summonerName, "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			// This should never happen
-			RiotApi.log.log(Level.SEVERE, "URL Encoding Failed", e);
+			RiotApi.log.error("URL Encoding Failed", e);
 		}
 		addApiKeyParameter();
 	}

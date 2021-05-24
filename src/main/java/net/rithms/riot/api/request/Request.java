@@ -27,8 +27,6 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import java.util.logging.Level;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -184,7 +182,7 @@ public class Request {
 				try {
 					errorDto = new Gson().fromJson(responseBodyBuilder.toString(), RiotApiError.class);
 				} catch (JsonSyntaxException e) {
-					RiotApi.log.warning("[" + object + "] Request > JsonSyntaxException: " + e.getMessage());
+					RiotApi.log.warn("[{}] Request > JsonSyntaxException: {}", object, e.getMessage());
 				}
 				throw new RiotApiException(responseCode, errorDto);
 			}
@@ -211,35 +209,35 @@ public class Request {
 		} catch (RespectedRateLimitException e) {
 			setException(e);
 			setState(RequestState.Failed);
-			RiotApi.log.fine("[" + object + "] Request > RespectedRateLimitException: " + e.getMessage());
+			RiotApi.log.trace("[{}] Request > RespectedRateLimitException: {}", object, e.getMessage());
 			throw e;
 		} catch (RateLimitException e) {
 			setException(e);
 			setState(RequestState.Failed);
-			RiotApi.log.fine("[" + object + "] Request > RateLimitException: " + e.getMessage());
+			RiotApi.log.trace("[{}] Request > RateLimitException: {}", object, e.getMessage());
 			throw e;
 		} catch (RiotApiException e) {
 			setException(e);
 			setState(RequestState.Failed);
-			RiotApi.log.fine("[" + object + "] Request > RiotApiException: " + e.getMessage());
+			RiotApi.log.trace("[{}] Request > RiotApiException: {}", object, e.getMessage());
 			throw e;
 		} catch (SocketTimeoutException e) {
 			RiotApiException exception = new RiotApiException(RiotApiException.TIMEOUT_EXCEPTION);
 			setException(exception);
 			setState(RequestState.Timeout);
-			RiotApi.log.fine("[" + object + "] Request > Timeout");
+			RiotApi.log.trace("[{}] Request > Timeout", object);
 			throw exception;
 		} catch (IOException e) {
 			RiotApiException exception = new RiotApiException(RiotApiException.IOEXCEPTION);
 			setException(exception);
 			setState(RequestState.Failed);
-			RiotApi.log.log(Level.SEVERE, "[" + object + "] Request > IOException", e);
+			RiotApi.log.error("[{}] Request > IOException", object, e);
 			throw exception;
 		} catch (NullPointerException e) {
 			RiotApiException exception = new RiotApiException(RiotApiException.NULLPOINTEREXCEPTION);
 			setException(exception);
 			setState(RequestState.Failed);
-			RiotApi.log.log(Level.SEVERE, "[" + object + "] Request > NullPointerException", e);
+			RiotApi.log.error("[{}] Request > NullPointerException", object, e);
 			throw exception;
 		} finally {
 			if (connection != null) {
@@ -287,10 +285,9 @@ public class Request {
 			return null;
 		}
 		if (type == null) {
-			RiotApi.log.log(Level.SEVERE,
-					"[" + object
-							+ "] Request > dtoType not specified by method implementation. If this is no custom request implementation, please file a bug.",
-					exception);
+			RiotApi.log.error(
+					"[{}] Request > dtoType not specified by method implementation. If this is no custom request implementation, please file a bug.",
+					object, exception);
 			return null;
 		}
 		T dto = null;
@@ -302,7 +299,7 @@ public class Request {
 		if (dto == null) {
 			RiotApiException exception = new RiotApiException(RiotApiException.PARSE_FAILURE);
 			setException(exception);
-			RiotApi.log.log(Level.WARNING, "[" + object + "] Request > Parse Failure", exception);
+			RiotApi.log.warn("[{}] Request > Parse Failure", object, exception);
 			throw exception;
 		}
 		return dto;

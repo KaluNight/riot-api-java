@@ -21,8 +21,6 @@ import java.util.Collection;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
-
 import net.rithms.riot.api.ApiConfig;
 import net.rithms.riot.api.ApiMethod;
 import net.rithms.riot.api.RiotApi;
@@ -196,7 +194,7 @@ public class AsyncRequest extends Request implements Runnable {
 		try {
 			return super.getDto(true);
 		} catch (RiotApiException e) {
-			RiotApi.log.log(Level.WARNING, "Retrieving Dto Failed", e);
+			RiotApi.log.warn("Retrieving Dto Failed", e);
 		}
 		return null;
 	}

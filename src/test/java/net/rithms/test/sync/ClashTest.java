@@ -74,11 +74,11 @@ public class ClashTest {
       if(!schedule.isEmpty()) {
         ClashTournamentPhase phase = schedule.get(0);
         ZonedDateTime registrationStart = phase.getRegistrationTime();
-        RiotApi.log.finest("Check if registration time is the same in client : " + 
+        RiotApi.log.trace("Check if registration time is the same in client : " + 
             registrationStart.withZoneSameInstant(ZoneId.of("Europe/Zurich")).toString());
         
         ZonedDateTime tournamentStart = phase.getStartTime();
-        RiotApi.log.finest("Check if start time is the same in client : " + 
+        RiotApi.log.trace("Check if start time is the same in client : " + 
             tournamentStart.withZoneSameInstant(ZoneId.of("Europe/Zurich")).toString());
       }
       
@@ -106,11 +106,11 @@ public class ClashTest {
       if(!schedule.isEmpty()) {
         ClashTournamentPhase phase = schedule.get(0);
         ZonedDateTime registrationStart = phase.getRegistrationTime();
-        RiotApi.log.finest("Check if registration time is the same in client : " + 
+        RiotApi.log.trace("Check if registration time is the same in client : " + 
             registrationStart.withZoneSameInstant(ZoneId.of("Europe/Zurich")).toString());
         
         ZonedDateTime tournamentStart = phase.getStartTime();
-        RiotApi.log.finest("Check if start time is the same in client : " + 
+        RiotApi.log.trace("Check if start time is the same in client : " + 
             tournamentStart.withZoneSameInstant(ZoneId.of("Europe/Zurich")).toString());
       }
       
@@ -125,18 +125,18 @@ public class ClashTest {
   public void testGetClashTournaments() throws RiotApiException {
     List<ClashTournament> clashTournaments = api.getClashTournaments(Platform.EUW);
     
-    RiotApi.log.finest("List of upcoming and active tournaments :");
+    RiotApi.log.trace("List of upcoming and active tournaments :");
     
     for(ClashTournament tournament : clashTournaments) {
-      RiotApi.log.finest("\nTournament Name : " + tournament.getNameKey()
+      RiotApi.log.trace("\nTournament Name : " + tournament.getNameKey()
       + " Secondary Name : " + tournament.getNameKeySecondary() + " Theme Id : " + tournament.getThemeId());
       
-      RiotApi.log.finest("Number of phase : " + tournament.getSchedule().size());
+      RiotApi.log.trace("Number of phase : " + tournament.getSchedule().size());
       
       for(ClashTournamentPhase phase : tournament.getSchedule()) {
-        RiotApi.log.finest("Phase registration : " 
+        RiotApi.log.trace("Phase registration : " 
       + phase.getRegistrationTime().withZoneSameInstant(ZoneId.of("Europe/Zurich")).toString());
-        RiotApi.log.finest("Phase start : " 
+        RiotApi.log.trace("Phase start : " 
       + phase.getStartTime().withZoneSameInstant(ZoneId.of("Europe/Zurich")).toString());
       }
     }
