@@ -55,7 +55,12 @@ import net.rithms.riot.api.endpoints.match.methods.GetMatch;
 import net.rithms.riot.api.endpoints.match.methods.GetMatchByMatchIdAndTournamentCode;
 import net.rithms.riot.api.endpoints.match.methods.GetMatchIdsByTournamentCode;
 import net.rithms.riot.api.endpoints.match.methods.GetMatchListByAccountId;
+import net.rithms.riot.api.endpoints.match.methods.GetMatchListByPuuid;
+import net.rithms.riot.api.endpoints.match.methods.GetMatchV5;
 import net.rithms.riot.api.endpoints.match.methods.GetTimelineByMatchId;
+import net.rithms.riot.api.endpoints.match.methods.GetTimelineV5ByMatchId;
+import net.rithms.riot.api.endpoints.match.v5.dto.MatchV5;
+import net.rithms.riot.api.endpoints.match.v5.dto.MatchV5Timeline;
 import net.rithms.riot.api.endpoints.spectator.dto.CurrentGameInfo;
 import net.rithms.riot.api.endpoints.spectator.dto.FeaturedGames;
 import net.rithms.riot.api.endpoints.spectator.methods.GetActiveGameBySummoner;
@@ -1769,6 +1774,29 @@ public class RiotApi implements Cloneable {
 	}
 
 	/**
+   * Get match by {@code matchId}.
+   *
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param matchId
+   *            The ID of the match.
+   * @return A map with match details
+   * @throws NullPointerException
+   *             If {@code platform} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 5
+   * @see MatchV5
+   */
+  public MatchV5 getMatchV5(Platform platform, String matchId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(matchId);
+    ApiMethod method = new GetMatchV5(getConfig(), platform, matchId);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
+
+	
+	/**
 	 * Get match by {@code matchId}.
 	 *
 	 * @param platform
@@ -1783,8 +1811,10 @@ public class RiotApi implements Cloneable {
 	 * @throws RiotApiException
 	 *             If the API returns an error or unparsable result
 	 * @version 4
+	 * @deprecated Please use v5
 	 * @see Match
 	 */
+	@Deprecated
 	public Match getMatch(Platform platform, long matchId, String forAccountId) throws RiotApiException {
 		Objects.requireNonNull(platform);
 		ApiMethod method = new GetMatch(getConfig(), platform, matchId, forAccountId);
@@ -1802,8 +1832,10 @@ public class RiotApi implements Cloneable {
 	 * @throws RiotApiException
 	 *             If the API returns an error or unparsable result
 	 * @version 4
+	 * @deprecated Please use v5
 	 * @see Match
 	 */
+	@Deprecated
 	public Match getMatch(Platform platform, long matchId) throws RiotApiException {
 		return getMatch(platform, matchId, null);
 	}
@@ -1880,14 +1912,42 @@ public class RiotApi implements Cloneable {
 	 * @throws RiotApiException
 	 *             If the API returns an error or unparsable result
 	 * @version 4
+	 * @deprecated Please use v5
 	 * @see MatchList
 	 */
+	@Deprecated
 	public MatchList getMatchListByAccountId(Platform platform, String accountId, Set<Integer> champion, Set<Integer> queue, Set<Integer> season,
 			long beginTime, long endTime, int beginIndex, int endIndex) throws RiotApiException {
 		Objects.requireNonNull(platform);
 		ApiMethod method = new GetMatchListByAccountId(getConfig(), platform, accountId, champion, queue, season, beginTime, endTime, beginIndex, endIndex);
 		return endpointManager.callMethodAndReturnDto(method);
 	}
+	
+	 /**
+   * Get matchlist for given account ID and platform ID.
+   *
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param puuid
+   *            The puuid of the summoner.
+   * @param start
+   *            The index of the first match of the list. Can be null (0 by default)
+   * @param count
+   *            The number of match wanted. Can be null (20 by default)
+   * 
+   * @return A list of match id
+   * @throws NullPointerException
+   *             If {@code platform} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 5
+   */
+  public List<String> getMatchListByPuuid(Platform platform, String puuid, Integer startIndex, Integer count) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(puuid);
+    ApiMethod method = new GetMatchListByPuuid(getConfig(), platform, puuid, startIndex, count);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
 
 	/**
 	 * Get matchlist for given account ID and platform ID.
@@ -1906,8 +1966,10 @@ public class RiotApi implements Cloneable {
 	 * @throws RiotApiException
 	 *             If the API returns an error or unparsable result
 	 * @version 4
+	 * @deprecated Please use v5
 	 * @see MatchList
 	 */
+	@Deprecated
 	public MatchList getMatchListByAccountId(Platform platform, String accountId, Set<Integer> champion, Set<Integer> queue, Set<Integer> season)
 			throws RiotApiException {
 		return getMatchListByAccountId(platform, accountId, champion, queue, season, -1, -1, -1, -1);
@@ -2070,13 +2132,37 @@ public class RiotApi implements Cloneable {
 	 * @throws RiotApiException
 	 *             If the API returns an error or unparsable result
 	 * @version 4
+	 * @deprecated Please use v5
 	 * @see MatchTimeline
 	 */
+	@Deprecated
 	public MatchTimeline getTimelineByMatchId(Platform platform, long matchId) throws RiotApiException {
 		Objects.requireNonNull(platform);
 		ApiMethod method = new GetTimelineByMatchId(getConfig(), platform, matchId);
 		return endpointManager.callMethodAndReturnDto(method);
 	}
+	
+	 /**
+   * Get match timeline by {@code matchId}.
+   *
+   * @param platform
+   *            Platform to execute the method call against.
+   * @param matchId
+   *            The ID of the match.
+   * @return A map with match timeline details
+   * @throws NullPointerException
+   *             If {@code platform} is {@code null}
+   * @throws RiotApiException
+   *             If the API returns an error or unparsable result
+   * @version 5
+   * @see MatchV5Timeline
+   */
+  public MatchV5Timeline getTimelineV5ByMatchId(Platform platform, String matchId) throws RiotApiException {
+    Objects.requireNonNull(platform);
+    Objects.requireNonNull(matchId);
+    ApiMethod method = new GetTimelineV5ByMatchId(getConfig(), platform, matchId);
+    return endpointManager.callMethodAndReturnDto(method);
+  }
 
 	/**
 	 * Returns the tournament code DTO associated with a {@code tournamentCode}.

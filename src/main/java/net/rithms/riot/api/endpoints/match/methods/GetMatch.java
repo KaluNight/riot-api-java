@@ -22,8 +22,9 @@ import net.rithms.riot.api.endpoints.match.MatchApiMethod;
 import net.rithms.riot.api.endpoints.match.dto.Match;
 import net.rithms.riot.constant.Platform;
 
+@Deprecated
 public class GetMatch extends MatchApiMethod {
-
+  @Deprecated
 	public GetMatch(ApiConfig config, Platform platform, long matchId, String forAccountId) {
 		super(config);
 		setPlatform(platform);

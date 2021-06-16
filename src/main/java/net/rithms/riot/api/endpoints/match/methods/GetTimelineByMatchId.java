@@ -21,8 +21,10 @@ import net.rithms.riot.api.endpoints.match.MatchApiMethod;
 import net.rithms.riot.api.endpoints.match.dto.MatchTimeline;
 import net.rithms.riot.constant.Platform;
 
+@Deprecated
 public class GetTimelineByMatchId extends MatchApiMethod {
 
+  @Deprecated
 	public GetTimelineByMatchId(ApiConfig config, Platform platform, long matchId) {
 		super(config);
 		setPlatform(platform);

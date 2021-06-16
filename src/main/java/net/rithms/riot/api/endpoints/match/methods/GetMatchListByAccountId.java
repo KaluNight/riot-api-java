@@ -24,8 +24,10 @@ import net.rithms.riot.api.endpoints.match.MatchApiMethod;
 import net.rithms.riot.api.endpoints.match.dto.MatchList;
 import net.rithms.riot.constant.Platform;
 
+@Deprecated
 public class GetMatchListByAccountId extends MatchApiMethod {
-
+  
+  @Deprecated
 	public GetMatchListByAccountId(ApiConfig config, Platform platform, String accountId, Set<Integer> champion, Set<Integer> queue, Set<Integer> season,
 			long beginTime, long endTime, int beginIndex, int endIndex) {
 		super(config);
